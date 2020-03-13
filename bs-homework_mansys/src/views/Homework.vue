@@ -1,0 +1,9 @@
+<template>
+    <div>
+        <p>xx作业列表</p>
+        <div>作业介绍</div>
+        <div>写作业</div>
+        <div>附件</div>
+        <div>评语</div>
+    </div>
+</template>

@@ -1,0 +1,28 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
+.flex {
+    display: flex;
+}
+.text-center {
+    text-align: center;
+}
+.text-left {
+    text-align: left;
+}
+.text-right {
+    text-align: right;
+}
+.flex-col {
+    flex-direction: column;
+}
+.justify-center {
+    justify-content: center;
+}
+.flex-end{
+    justify-content: flex-end;
+}
+.align-center {
+    align-items: center;
+}
