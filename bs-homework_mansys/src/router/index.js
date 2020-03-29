@@ -4,10 +4,15 @@ import VueRouter from 'vue-router'
 //
 import Login from 'views/Login'
 import Home from 'views/Home'
-import Homework from 'views/Homework'
+import HomeworkList from 'views/HomeworkList'
+import HomeworkInfo from 'views/HomeworkInfo'
 Vue.use(VueRouter)
 
 const routes = [
+  {
+    path: '/',
+    redirect: '/login'
+  },
   {
     path: '/login',
     name: 'login',
@@ -21,21 +26,24 @@ const routes = [
         {
             path: '/math',
             name: 'math',
-            component: Homework
+            component: HomeworkList
         },
         {
             path: '/chinese',
             name: 'chinese',
-            component: Homework
+            component: HomeworkList
         },
         {
             path: '/english',
             name: 'english',
-            component: Homework
+            component: HomeworkList
         },
     ]
   },
-  
+  {
+    path: '/math/1',
+    component: HomeworkInfo
+  }
   /* {
     path: '/about',
     name: 'About',
@@ -62,5 +70,7 @@ router.beforeEach((to,from,next)=>{
    } else {
        next()
    }
+
+   
 })
 export default router

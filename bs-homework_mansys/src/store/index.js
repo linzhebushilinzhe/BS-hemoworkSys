@@ -10,7 +10,8 @@ export default new Vuex.Store({
       userinfo:{
           username: 'linzhe',
           identity: '',
-          course: []
+          course: [],
+          homeworkList: []
       },
       token:''
   },
@@ -23,6 +24,9 @@ export default new Vuex.Store({
     },
     course(state) {
         return state.userinfo.course
+    },
+    homeworkList(state){
+        return state.userinfo.homeworkList
     }
   },
   mutations: {
@@ -34,6 +38,9 @@ export default new Vuex.Store({
       },
       SET_COURSE(state, data){
           state.userinfo.course = data
+      },
+      SET_HOMEWORKLIST(state,data){
+          state.userinfo.homeworkList = data
       }
   },
   actions: {
@@ -64,6 +71,7 @@ export default new Vuex.Store({
                 const data = response.data.data
                 commit('SET_IDENTITY',data.roles)
                 commit('SET_COURSE',data.course)
+                commit('SET_HOMEWORKLIST',data.homeworkList)
                 resolve()
             }).catch((err)=>{
                 reject(err)
