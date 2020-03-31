@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="home-page">
     <header-info></header-info>
     <div class="flex content">
       <el-menu
@@ -23,14 +23,6 @@
         <router-view :key="$route.fullPath"></router-view>
       </el-main>
     </div>
-    <!-- <div class="flex">
-      <div>
-        <div class="course-box" v-for="(item,index) in courseList" :key="index">
-          <router-link :to="item.path">{{item.label}}</router-link>
-        </div>
-      </div>
-      <router-view></router-view>
-    </div> -->
   </div>
 </template>
 <script>
@@ -49,6 +41,11 @@ export default {
 };
 </script>
 <style lang="scss">
+.home-page{
+  height: 100%;
+  display: flex;
+  flex-direction: column
+}
 .course-box {
   width: 100px;
   height: 100px;
@@ -61,6 +58,7 @@ export default {
   }
 }
 .content {
+  flex-grow: 1;
   .el-menu{
     flex-basis: 20%;
   }
