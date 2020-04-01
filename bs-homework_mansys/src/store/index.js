@@ -57,7 +57,7 @@ export default new Vuex.Store({
                 const data = response.data.data
                 commit('SET_TOKEN', data.token)
                 resolve()
-            }).catch((err)=>{
+            }).catch(err =>{
                 reject(err)
             })
         })
