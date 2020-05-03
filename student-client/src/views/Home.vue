@@ -5,19 +5,13 @@
       <el-menu
         :unique-opened="true"
         :default-active="$route.path"
-        class="el-menu-vertical-demo"
         :router="true"
         background-color="#545c64"
         text-color="#fff"
         active-text-color="#ffd04b">
-        <el-submenu index="1">
-          <template slot="title">
-            <span>作业种类</span>
-          </template>
-          <el-menu-item :index="item.path" v-for="item in courseList" :key="item.id"> 
+         <el-menu-item :index="item.path" v-for="item in courseList" :key="item.id"> 
             <span>{{item.label}}</span>
           </el-menu-item>
-        </el-submenu>
       </el-menu>
       <el-main>
         <router-view :key="$route.fullPath"></router-view>
@@ -37,7 +31,9 @@ export default {
   components: {
     HeaderInfo
   },
-  mounted() {}
+  mounted() {
+    console.log(this.courseList)
+  }
 };
 </script>
 <style lang="scss">

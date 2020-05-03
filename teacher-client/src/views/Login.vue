@@ -1,6 +1,6 @@
 <template>
   <div class="login-form flex flex-col">
-    <h1 class="text-center">学生作业管理系统</h1>
+    <h1 class="text-center">学生作业管理系统教师端</h1>
     <el-input prefix-icon="el-icon-user-solid" v-model="form.account" placeholder="请输入账号"></el-input>
     <el-input prefix-icon="el-icon-lock" type="password" placeholder="请输入密码" v-model="form.pwd"></el-input>
     <div class="btns-group flex justify-center">
@@ -15,22 +15,23 @@ export default {
   data() {
     return {
       form: {
-        account: "admin",
-        pwd: "test141"
+        account: "JG20201234",
+        pwd: "test10086"
       }
     };
   },
   methods: {
     login() {
-      this.$store
+      this.$store 
         .dispatch("Login", this.form)
-        .then(() => {
+        .then((res) => {
+          console.log("res--->",res)
           this.$message({
             message: "登录成功!",
             type: "success"
           });
-          this.$store.dispatch("GetInfo").then(() => {
-            this.$router.push({ path: "/home" });
+          this.$store.dispatch("GetInfo", this.form.account).then(() => {
+            this.$router.push({ path: "/home" })
           });
         })
         .catch(err => {
@@ -39,6 +40,8 @@ export default {
             type: "error"
           });
         });
+    
+   
     }
   }
 };
@@ -47,7 +50,7 @@ export default {
 .login-form {
   width: 500px;
   height: 300px;
-  margin: 100px auto;
+  margin: 200px auto;
   border: 1px solid #ddd;
   box-sizing: border-box;
   border-radius: 10px;

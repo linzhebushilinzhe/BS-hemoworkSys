@@ -26,22 +26,30 @@ const routes = [
         {
             path: '/math',
             name: 'math',
+            component: HomeworkList,
+        },
+        {
+            path: '/Chinese',
+            name: 'Chinese',
             component: HomeworkList
         },
         {
-            path: '/chinese',
-            name: 'chinese',
-            component: HomeworkList
-        },
-        {
-            path: '/english',
-            name: 'english',
+            path: '/English',
+            name: 'English',
             component: HomeworkList
         },
     ]
   },
   {
-    path: '/math/1',
+    path: '/math/:id',
+    component: HomeworkInfo,
+  },
+  {
+    path: '/chinese/:id',
+    component: HomeworkInfo
+  },
+  {
+    path: '/English/:id',
     component: HomeworkInfo
   }
   /* {
@@ -62,7 +70,7 @@ const router = new VueRouter({
 //to 进来的路由，from 离开的路由，next 放行
 router.beforeEach((to,from,next)=>{
    if(to.path != '/login'){
-       if(!localStorage.getItem('TOKEN')){
+       if(!localStorage.getItem('token')){
            next({path: '/login'})
        } else {
            next()

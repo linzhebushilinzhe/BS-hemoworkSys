@@ -14,7 +14,7 @@
                 {{this.$store.getters.identity | identity(this.$store.getters.identity )}}
             </el-button>
         </el-popover>  
-        <span>退出</span>
+        <span @click="logout" class="logout">退出</span>
     </div>
 </template>
 <script>
@@ -28,35 +28,28 @@ export default {
         }
     },
     methods: {
-      /*   open() {
-            this.$alert('这是内容', '标题', {
-                confirmButtonText: '确定',
-                callback: action => {
-                    console.log(action)
-                    this.$message({
-                        type: 'info',
-                        message: `action: ${ action}`
-                    })
-                }
-            })
-        } */
         open() {
-        this.$confirm('修改密码', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          this.$message({
-            type: 'success',
-            message: '删除成功!'
-          });
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
-          });          
-        });
-      }
+            this.$confirm('修改密码', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+            }).then(() => {
+            this.$message({
+                type: 'success',
+                message: '删除成功!'
+            });
+            }).catch(() => {
+            this.$message({
+                type: 'info',
+                message: '已取消删除'
+            });          
+            })
+        },
+        logout(){
+            this.$router.push({
+                path: '/login'
+            })
+        }
     }
 }
 </script>
@@ -67,6 +60,7 @@ export default {
         span{
             margin-right: 20px;
         }
+        .logout,
         .user-info{
             cursor: pointer;
         }

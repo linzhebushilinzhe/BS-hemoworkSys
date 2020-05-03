@@ -1,0 +1,35 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
+.flex {
+    display: flex;
+}
+.flex1{
+    flex: 1;
+}
+.text-center {
+    text-align: center;
+}
+.text-left {
+    text-align: left;
+}
+.text-right {
+    text-align: right;
+}
+.flex-col {
+    flex-direction: column;
+}
+.justify-center {
+    justify-content: center;
+}
+.flex-end{
+    justify-content: flex-end;
+}
+.align-center {
+    align-items: center;
+}
+
+.dev-el-dialog .el-dialog{
+    margin-top: 200px !important;  
+}

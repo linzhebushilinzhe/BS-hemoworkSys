@@ -8,7 +8,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
       userinfo:{
-          username: 'linzhe',
+          username: '',
+          stuID: '',
           identity: '',
           course: [],
           homeworkList: []
@@ -16,6 +17,9 @@ export default new Vuex.Store({
       token:''
   },
   getters: {
+    stuID(state){
+        return state.userinfo.stuID
+    },
     username(state) {
         return state.userinfo.username
     },
@@ -31,7 +35,8 @@ export default new Vuex.Store({
   },
   mutations: {
       SET_TOKEN(state, data){
-          localStorage.setItem('TOKEN', data)
+          localStorage.setItem('token', data)
+          state.token = data
       },
       SET_IDENTITY(state, data){
           state.userinfo.identity = data
@@ -41,6 +46,12 @@ export default new Vuex.Store({
       },
       SET_HOMEWORKLIST(state,data){
           state.userinfo.homeworkList = data
+      },
+      SET_STUID(state, data) {
+          state.userinfo.stuID = data
+      },
+      SET_USERNAME(state, data){
+          state.userinfo.username = data
       }
   },
   actions: {
@@ -48,30 +59,34 @@ export default new Vuex.Store({
         return new Promise((resolve, reject)=>{
             axios({
                 method: 'post',
-                url: 'http://localhost:5000/login',
+                url: 'api/login',
                 data: {
                     username: userInfo.account,
                     password: userInfo.pwd
                 }
             }).then(response => {
-                const data = response.data.data
+                const data = response.data
+                console.log('ssss-->',data)
+                commit('SET_STUID',userInfo.account)
                 commit('SET_TOKEN', data.token)
+                commit('SET_USERNAME',userInfo.account)
                 resolve()
             }).catch(err =>{
                 reject(err)
             })
         })
       },
-      GetInfo({commit}){
+      GetInfo({commit}, username){
          return new Promise((resolve,reject)=>{
             axios({
-                method: 'get',
-                url: 'http://localhost:5000/userInfo'
+                method: 'post',
+                url: 'api/stuHomework',
+                data: {
+                    username: username
+                }
             }).then((response) => {
-                const data = response.data.data
-                commit('SET_IDENTITY',data.roles)
-                commit('SET_COURSE',data.course)
-                commit('SET_HOMEWORKLIST',data.homeworkList)
+                var data = response.data.data
+                commit('SET_HOMEWORKLIST',data)
                 resolve()
             }).catch((err)=>{
                 reject(err)
