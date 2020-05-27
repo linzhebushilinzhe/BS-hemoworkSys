@@ -26,3 +26,20 @@
 .align-center {
     align-items: center;
 }
+.flex1{
+    flex: 1;
+}
+.justify-between {
+    justify-content: space-between;
+}
+
+.re{
+    position: relative;
+}
+.fixed{
+    position: fixed;
+}
+
+.ab{
+    position: absolute;
+}

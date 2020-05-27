@@ -9,7 +9,6 @@
     height: 100%;
   }
   #app{
-    overflow: hidden;
     height: 100%;
   }
 </style>

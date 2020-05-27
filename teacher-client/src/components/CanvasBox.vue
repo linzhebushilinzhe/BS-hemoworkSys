@@ -1,7 +1,7 @@
 <template>
   <canvas 
-    width="880px"
-    height="1000px"
+    width="650px"
+    height="700px"
     class="hwImgCanvas"
     id="hwImgCanvas"
   ></canvas>

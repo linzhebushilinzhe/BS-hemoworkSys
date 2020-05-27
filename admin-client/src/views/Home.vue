@@ -1,6 +1,6 @@
 <template>
   <div class="home flex flex-col">
-    <head-info></head-info>
+    <header-info></header-info> 
     <div class="flex1 content flex">
       <el-menu
         :unique-opened="true"
@@ -10,9 +10,9 @@
         text-color="#fff"
         active-text-color="#ffd04b"
       >
-        <el-menu-item index="/assignsHomework">布置作业</el-menu-item>
-        <el-menu-item index="/homeworkList">作业列表</el-menu-item>
-        <el-menu-item index="/communicat">交流</el-menu-item>
+        <el-menu-item index="/accountMan">账号管理</el-menu-item>
+        <el-menu-item index="/teacherMan">教师管理</el-menu-item>
+        <el-menu-item index="/studentMan">学生管理</el-menu-item>
       </el-menu>
       <el-main>
         <router-view :key="$route.fullPath"></router-view>
@@ -23,16 +23,15 @@
 
 <script>
 // @ is an alias to /src
-// import HelloWorld from "@/components/HelloWorld.vue";
-import HeadInfo from "@/components/HeadInfo";
+import HeaderInfo from "@/components/HeaderInfo.vue";
+
 export default {
   name: "Home",
   components: {
-    HeadInfo
+    HeaderInfo
   }
 };
 </script>
-
 <style lang="scss" scoped>
 .home {
   height: 100%;

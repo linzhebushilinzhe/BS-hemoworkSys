@@ -5,7 +5,6 @@
     <el-input prefix-icon="el-icon-lock" type="password" placeholder="请输入密码" v-model="form.pwd"></el-input>
     <div class="btns-group flex justify-center">
       <el-button type="primary" @click="login">登录</el-button>
-      <el-button type="primary">注册</el-button>
     </div>
   </div>
 </template>
@@ -22,17 +21,23 @@ export default {
   },
   methods: {
     login() {
-      this.$store 
+      this.$store
         .dispatch("Login", this.form)
-        .then((res) => {
-          console.log("res--->",res)
-          this.$message({
-            message: "登录成功!",
-            type: "success"
-          });
-          this.$store.dispatch("GetInfo", this.form.account).then(() => {
-            this.$router.push({ path: "/home" })
-          });
+        .then(res => {  
+          if (res.data.success) {
+            this.$store.dispatch("GetInfo", this.form.account).then(() => {
+              this.$message({
+                message: res.data.msg,
+                type: "success"
+              });
+              this.$router.push({ path: "/home" });
+            });
+          } else {
+            this.$message({
+              message: res.data.msg,
+              type: 'error'
+            });
+          }
         })
         .catch(err => {
           this.$message({
@@ -40,8 +45,6 @@ export default {
             type: "error"
           });
         });
-    
-   
     }
   }
 };

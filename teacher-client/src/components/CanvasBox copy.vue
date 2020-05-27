@@ -1,10 +1,9 @@
 <template>
   <canvas 
-    width="880px"
-    height="1000px"
+    width="650px"
+    height="700px"
     class="hwImgCanvas"
     id="hwImgCanvas"
-    :style="'background-image:url(http://localhost:3000/public/images/'+data+')'"
   ></canvas>
 </template>
 <script>

@@ -2,7 +2,7 @@
   <div>
     <div class="flex flex-col">
       <div> 
-        <router-link 
+        <router-link class="class-info"
         v-for="(item,i) in classOptions" :key="i"
         :to="'/class/'+item.value" >
           <span>{{item.label}}</span>
@@ -37,3 +37,11 @@ export default {
   }
 };
 </script>
+<style lang="scss" scoped>
+  .class-info{
+    margin-right: 20px;
+    &.router-link-active{
+      color: red;
+    }
+  }
+</style>

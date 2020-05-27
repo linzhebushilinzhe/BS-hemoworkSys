@@ -7,6 +7,7 @@ import HomeworkList from '../views/HomeworkList.vue'
 import SamplePage from '../components/SimplePage.vue'
 import SimpleTable from '../components/SimpleTable.vue'
 import HomeworkComplet from '../views/HomeworkComplet.vue'
+import Communicat from '../views/Communicat.vue'
 Vue.use(VueRouter);
 
 const routes = [{
@@ -16,10 +17,6 @@ const routes = [{
   {
     path: "/login",
     name: "Login",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    // component: () => import(/* webpackChunkName: "about" */ "../views/Login.vue")
     component: Login
   },
   {
@@ -53,6 +50,11 @@ const routes = [{
         name: 'homeworkCorrect',
         component: HomeworkCorrect,
       },
+      {
+        path: '/communicat',
+        name: 'communicat',
+        component: Communicat
+      }
     ]
   }
 ];

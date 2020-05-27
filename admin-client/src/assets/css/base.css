@@ -5,9 +5,6 @@
 .flex {
     display: flex;
 }
-.flex1{
-    flex: 1;
-}
 .text-center {
     text-align: center;
 }
@@ -29,23 +26,9 @@
 .align-center {
     align-items: center;
 }
-
-.dev-el-dialog .el-dialog{
-    margin-top: 200px !important;  
-}
 .justify-between {
     justify-content: space-between;
 }
 .flex1 {
     flex: 1;
-}
-.re{
-    position: relative;
-}
-.fixed{
-    position: fixed;
-}
-
-.ab{
-    position: absolute;
 }

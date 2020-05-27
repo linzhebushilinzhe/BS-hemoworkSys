@@ -5,7 +5,7 @@
         <router-link 
         v-for="(item,i) in classOptions" :key="i"
         :to="'/class/'+item.value" >
-          <span>{{item.label}}</span>
+          <span class="class-span">{{item.label}}</span>
         </router-link>
       </div>
       <router-view class="flex1"></router-view>
@@ -37,3 +37,4 @@ export default {
   }
 };
 </script>
+

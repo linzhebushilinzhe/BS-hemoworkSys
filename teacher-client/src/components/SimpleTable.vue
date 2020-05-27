@@ -1,6 +1,6 @@
 <template>
   <div class="simple-table">
-    <el-table :data="tableData" max-height="500">
+    <el-table :data="tableData" max-height="700">
       <el-table-column prop="hwName" label="作业名"></el-table-column>
       <el-table-column prop="hwContent" label="作业内容"></el-table-column>
       <el-table-column prop="endDate" label="截止时间"></el-table-column>

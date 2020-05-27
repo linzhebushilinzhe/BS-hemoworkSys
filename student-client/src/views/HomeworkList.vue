@@ -59,7 +59,7 @@ export default {
     }
     .hw-list{
       height: 500px;
-      overflow: scroll;
+      overflow-y: scroll;
       .title{
         margin-bottom: 10px
       }

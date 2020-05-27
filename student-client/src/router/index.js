@@ -6,6 +6,7 @@ import Login from 'views/Login'
 import Home from 'views/Home'
 import HomeworkList from 'views/HomeworkList'
 import HomeworkInfo from 'views/HomeworkInfo'
+import Communicat from 'views/Communicat'
 Vue.use(VueRouter)
 
 const routes = [
@@ -38,6 +39,11 @@ const routes = [
             name: 'English',
             component: HomeworkList
         },
+        {
+          path: '/communication',
+          name: 'communication',
+          component: Communicat
+        }
     ]
   },
   {

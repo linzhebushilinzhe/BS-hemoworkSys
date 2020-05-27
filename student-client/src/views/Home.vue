@@ -12,6 +12,9 @@
          <el-menu-item :index="item.path" v-for="item in courseList" :key="item.id"> 
             <span>{{item.label}}</span>
           </el-menu-item>
+          <el-menu-item index="/communication" > 
+            <span>交流</span>
+          </el-menu-item>
       </el-menu>
       <el-main>
         <router-view :key="$route.fullPath"></router-view>
@@ -32,7 +35,7 @@ export default {
     HeaderInfo
   },
   mounted() {
-    console.log(this.courseList)
+    console.log('courseList',this.$store.getters)
   }
 };
 </script>

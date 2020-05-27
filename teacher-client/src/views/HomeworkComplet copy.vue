@@ -5,7 +5,7 @@
       <el-table-column prop="hwContent" label="作业内容"></el-table-column>
       <el-table-column prop="endDate" label="截止日期"></el-table-column>
     </el-table>
-    <el-table :data="stuHwComplatData" max-height="500">
+    <el-table :data="stuHwComplatData" max-height="700">
       <el-table-column prop="stuName" label="学生姓名"></el-table-column>
       <el-table-column prop="stuID" label="学号"></el-table-column>
       <el-table-column prop="state" label="是否提交"></el-table-column>

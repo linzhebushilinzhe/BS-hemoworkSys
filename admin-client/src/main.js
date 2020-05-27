@@ -1,17 +1,19 @@
-import Vue from 'vue'
-import App from './App.vue'
-import router from './router'
-import store from './store'
+import Vue from "vue";
+import App from "./App.vue";
+import router from "./router";
+import store from "./store";
 import 'assets/css/base.css'
 import 'element-ui/lib/theme-chalk/index.css'
 import ElementUI from 'element-ui'
 import axios from 'axios'
+Vue.prototype.$axios = axios 
+Vue.config.productionTip = false;
 Vue.use(ElementUI)
-Vue.prototype.$axios = axios //全局注册，使用方法为 this.$axios,绑定到原型上
-Vue.config.productionTip = false
+
 axios.interceptors.request.use(function (config) {
   // 在发送请求之前做些什么
   //若token存在，则在每次请求头中加入token
+  //console.log(config.url.indexOf('login'))
   if(config.url.indexOf('login') == -1){
     if (localStorage.getItem('token')) {
       config.headers.common['token'] = localStorage.getItem('token')
@@ -44,4 +46,4 @@ new Vue({
   router,
   store,
   render: h => h(App)
-}).$mount('#app')
+}).$mount("#app");
