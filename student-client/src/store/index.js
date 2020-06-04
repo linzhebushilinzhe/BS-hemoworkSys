@@ -26,11 +26,15 @@ export default new Vuex.Store({
                     label: '英语'
                 }
             ],
-            homeworkList: []
+            homeworkList: [],
+            stuName: ''
         },
         token: ''
     },
     getters: {
+        stuName(state){
+            return state.userinfo.stuName
+        },
         stuID(state) {
             return state.userinfo.stuID
         },
@@ -48,6 +52,9 @@ export default new Vuex.Store({
         }
     },
     mutations: {
+        SET_STUNAME(state,data){
+            state.userinfo.stuName = data
+        },
         SET_TOKEN(state, data) {
             localStorage.setItem('token', data)
             state.token = data

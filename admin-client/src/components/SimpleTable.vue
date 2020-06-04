@@ -1,6 +1,6 @@
 <template>
   <div class="simple-table">
-    <el-table :data="tableData" max-height="700">
+    <el-table :data="tableData" max-height="522">
       <!-- <el-table-column 
         v-for="(item,i) in Object.keys(tableData)" 
         :key="i"

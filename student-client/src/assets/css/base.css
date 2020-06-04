@@ -43,3 +43,8 @@
 .ab{
     position: absolute;
 }
+
+.own  input{
+    background: #66b1ff !important;
+    color: #fff !important;
+  }

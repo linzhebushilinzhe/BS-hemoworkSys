@@ -5,9 +5,9 @@
         <!-- <div>{{this.$store.getters.username}}</div> -->
         <div v-for="(item,i) in msgList" :key="i">
           <el-input 
-          :class="item.username == $store.getters.username ? 'own': 'other'" 
+          :class="item.username == $store.getters.stuName ? 'own': 'other'" 
           style="margin-top: 20px; width: 800px;" 
-          :value="item.username+':'+item.mssage"></el-input>
+          :value="item.username+item.identity+':'+item.mssage"></el-input>
         </div>
       </div>
     </ul>
@@ -47,21 +47,21 @@ export default {
     //3.监听 服务端的消息 后渲染页面
     this.ws.onmessage = function(event) {
       let data = JSON.parse(event.data);
-      if (data.username != that.$store.getters.username) {
+      if (data.username != that.$store.getters.stuName) {
         that.msgList.push({
           username: data.username,
-          mssage: data.mssage
+          mssage: data.mssage,
+          identity: data.identity
         });
       }
-      //   let msg = event.data;
-      //   let liEl = document.createElement("li");
     };
   },
   methods: {
     sendMsg() {
       let msgInfo = {
-        username: this.$store.getters.username,
-        mssage: this.msg
+        username: this.$store.getters.stuName,
+        mssage: this.msg,
+        identity: '学生'
       };
       if (this.ws.readyState != 3) {
         this.ws.send(JSON.stringify(msgInfo));
@@ -75,6 +75,10 @@ export default {
 <style lang="scss" scoped>
 .own{
     float: right;
+    input{
+      background: #66b1ff !important;
+      color: #fff !important;
+    }
 }
 .other{
     background: #ccc;

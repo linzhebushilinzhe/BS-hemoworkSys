@@ -5,9 +5,9 @@
         <!-- <div>{{this.$store.getters.username}}</div> -->
         <div v-for="(item,i) in msgList" :key="i">
           <el-input 
-          :class="item.username == $store.getters.username ? 'own': 'other'" 
+          :class="item.username == $store.getters.tchName ? 'own': 'other'" 
           style="margin-top: 20px; width: 800px;" 
-          :value="item.username+':'+item.mssage"></el-input>
+          :value="item.username+item.identity+':'+item.mssage"></el-input>
         </div>
       </div>
     </ul>
@@ -50,22 +50,22 @@ export default {
       if (data.username != that.$store.getters.tchName) {
         that.msgList.push({
           username: data.username,
-          mssage: data.mssage
+          mssage: data.mssage,
+          identity: data.identity
         });
       }
-      //   let msg = event.data;
-      //   let liEl = document.createElement("li");
     };
   },
   methods: {
     sendMsg() {
       let msgInfo = {
-        username: this.$store.getters.username,
-        mssage: this.msg
+        username: this.$store.getters.tchName,
+        mssage: this.msg,
+        identity: '教师'
       };
       if (this.ws.readyState != 3) {
         this.ws.send(JSON.stringify(msgInfo));
-        // this.msgList.push(msgInfo);
+        this.msgList.push(msgInfo);
       }
     }
   }

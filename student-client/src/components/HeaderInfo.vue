@@ -82,25 +82,40 @@ export default {
   methods: {
     changePwd() {
       this.dialogFormVisible = true;
-      // this.$confirm("修改密码", "提示", {
-      //   confirmButtonText: "确定",
-      //   cancelButtonText: "取消",
-      //   type: "warning"
-      // })
-      //   .then(() => {
-      //     this.$message({
-      //       type: "success",
-      //       message: "删除成功!"
-      //     });
-      //   })
-      //   .catch(() => {
-      //     this.$message({
-      //       type: "info",
-      //       message: "已取消删除"
-      //     });
-      //   });
+      this.submit();
     },
-    submit() {},
+    submit() {
+      
+      this.$refs.form.validate(valid => {
+        if (valid) {
+          console.log(this.form);
+          this.$axios({
+            method: "post",
+            url: "/api/user/changePwd/" + this.stuID,
+            data: {
+              password: this.form.newPwd
+            }
+          }).then(res => {
+            console.log(res);
+            if(res.data.success){
+              this.$message({
+                message: res.data.data,
+                type: 'success'
+              })
+              this.dialogFormVisible = false
+              this.logout()
+            }
+          });
+        } else {
+          console.log("error submit!!");
+          this.$message({
+                message: '密码验证错误',
+                type: 'error'
+              })
+          return false;
+        }
+      });
+    },
     logout() {
       this.$router.push({
         path: "/login"
@@ -116,6 +131,7 @@ export default {
           console.log(res.data.data[0]);
           this.stuID = res.data.data[0].stuID;
           this.stuName = res.data.data[0].stuName;
+          this.$store.commit('SET_STUNAME',this.stuName)
         }
       });
     }

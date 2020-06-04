@@ -11,9 +11,7 @@ Vue.config.productionTip = false;
 Vue.use(ElementUI)
 
 axios.interceptors.request.use(function (config) {
-  // 在发送请求之前做些什么
-  //若token存在，则在每次请求头中加入token
-  //console.log(config.url.indexOf('login'))
+
   if(config.url.indexOf('login') == -1){
     if (localStorage.getItem('token')) {
       config.headers.common['token'] = localStorage.getItem('token')
@@ -22,7 +20,7 @@ axios.interceptors.request.use(function (config) {
   return config;
   
 }, function (error) {
-  // 对请求错误做些什么
+ 
   return Promise.reject(error);
 });
 
@@ -36,7 +34,7 @@ axios.interceptors.response.use(function (response) {
       path: '/login'
     });
     
-    // return ;
+  
 }
   return response;
 }, function (error) {

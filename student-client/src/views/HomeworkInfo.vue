@@ -26,7 +26,7 @@
             <h4>作业附件:</h4>
           </el-col>
           <el-col :span="21">
-            <el-button>下载</el-button>
+            <el-button @click="downloadHwFile">下载</el-button>
           </el-col>
         </el-row>
       </el-collapse-item>
@@ -37,7 +37,7 @@
             <h4>作业文本:</h4>
           </el-col>
           <el-col :span="21">
-            <span>数字图像频域隐写与分析技术的实现</span>
+            <span>{{hwDesc}}</span>
           </el-col>
         </el-row>
         <el-row :gutter="20">
@@ -61,7 +61,14 @@
       </el-collapse-item>
 
       <el-collapse-item title="评语" name="3" class="collapse hw-comments">
-        <p>{{hwComments}}</p>
+        
+        <!-- <el-input :disabled="true" type="textarea" :rows="2" placeholder="请输入内容" v-model="hwComments"></el-input> -->
+       <p style="background: #eee;padding: 20px;border-radius: 10px;">
+         {{hwComments}}
+       </p>
+        <div class="flex justify-center">
+          <el-button @click="downloadResulltFile">下载结果</el-button>
+        </div>
       </el-collapse-item>
     </el-collapse>
   </div>
@@ -73,14 +80,16 @@ import $ from "jquery";
 export default {
   data() {
     return {
-      activeNames: ['1', '2', '3'],
+      activeNames: ["1", "2", "3"],
       fileList: [],
-      hwName: '',
-      hwContent: '',
-      hwDesc: '',
-      endTime: '',
+      hwName: "",
+      hwContent: "",
+      hwDesc: "",
+      endTime: "",
       uploadUrl: "/api/upload",
-      hwComments: ''
+      hwComments: "",
+      resultFile: "",
+      hwFile: '',
     };
   },
   components: {
@@ -94,7 +103,7 @@ export default {
   mounted() {
     setTimeout(() => {
       this.download();
-    }, 0);
+    }, 1000);
   },
   methods: {
     uploadHw(val) {
@@ -102,7 +111,7 @@ export default {
       fd.append("uploadFile", val.file);
       fd.append("username", "XS5120162266");
       fd.append("hwID", this.$route.params.id);
-      console.log('fd--->',fd)
+      console.log("fd--->", fd);
       axios({
         method: "post",
         url: "/api/upload",
@@ -121,12 +130,14 @@ export default {
         }
       })
         .then(res => {
-          console.log('res->详细作业信息',res);
-          this.hwName= res.data.data[0].hwName
-          this.hwDesc= res.data.data[0].hwDesc
-          this.hwContent= res.data.data[0].hwContent
-          this.endTime= res.data.data[0].endDate
-          this.hwComments = res.data.data[0].comments
+          console.log("res->详细作业信息", res);
+          this.hwName = res.data.data[0].hwName;
+          this.hwDesc = res.data.data[0].hwDesc;
+          this.hwContent = res.data.data[0].hwContent;
+          this.endTime = res.data.data[0].endDate;
+          this.hwComments = res.data.data[0].comments;
+          this.resultFile = res.data.data[0].resultFile;
+          this.hwFile = res.data.data[0].hwFile
           if (res.data.data[0].stuHwFile != null) {
             this.fileList.push({
               name: res.data.data[0].stuHwFile
@@ -174,6 +185,78 @@ export default {
             });
           });
       });
+    },
+    downloadResulltFile() {
+      var that = this;
+      if (that.resultFile != "") {
+        axios({
+          method: "post",
+          url: "/api/downloadResultFile",
+          data: {
+            filename: that.resultFile
+          },
+          responseType: "arraybuffer"
+        })
+          .then(res => {
+            console.log("res-download", res);
+            const fileName = res.headers["content-disposition"].split("=")[1];
+            const _res = res.data;
+            let blob = new Blob([_res]);
+            let downloadElement = document.createElement("a");
+            let href = window.URL.createObjectURL(blob); 
+            downloadElement.href = href;
+            downloadElement.download = fileName;
+            document.body.appendChild(downloadElement);
+            downloadElement.click(); 
+            document.body.removeChild(downloadElement); 
+            window.URL.revokeObjectURL(href);
+            console.log("download--> end");
+          })
+          .catch(err => {
+            that.$message({
+              message: "登录已过期，请重新登录"
+            });
+            that.$router.push({
+              path: "/login"
+            });
+          });
+      }
+    },
+    downloadHwFile(){
+      console.log(this.hwFile)
+      if(this.hwFile) {
+        axios({
+          method: "post",
+          url: "/api/downloadHwFile",
+          data: {
+            filename: this.hwFile
+          },
+          responseType: "arraybuffer"
+        })
+          .then(res => {
+            console.log("res-download", res);
+            const fileName = res.headers["content-disposition"].split("=")[1];
+            const _res = res.data;
+            let blob = new Blob([_res]);
+            let downloadElement = document.createElement("a");
+            let href = window.URL.createObjectURL(blob); 
+            downloadElement.href = href;
+            downloadElement.download = fileName; 
+            document.body.appendChild(downloadElement);
+            downloadElement.click(); 
+            document.body.removeChild(downloadElement); 
+            window.URL.revokeObjectURL(href);
+            console.log("download--> end");
+          })
+          .catch(err => {
+            that.$message({
+              message: "登录已过期，请重新登录"
+            });
+            that.$router.push({
+              path: "/login"
+            });
+          });
+      }
     }
   }
 };
@@ -198,7 +281,7 @@ export default {
     border-top: none;
     border-bottom: none;
   }
-  .hw-comments{
+  .hw-comments {
     p {
       margin-left: 20px;
     }
