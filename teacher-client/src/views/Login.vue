@@ -1,6 +1,6 @@
 <template>
   <div class="login-form flex flex-col">
-    <h1 class="text-center">学生作业管理系统教师端</h1>
+    <h1 class="text-center" style="visibility: hidden;">学生作业管理系统教师端</h1>
     <el-input prefix-icon="el-icon-user-solid" v-model="form.account" placeholder="请输入账号"></el-input>
     <el-input prefix-icon="el-icon-lock" type="password" placeholder="请输入密码" v-model="form.pwd"></el-input>
     <div class="btns-group flex justify-center">
@@ -14,8 +14,8 @@ export default {
   data() {
     return {
       form: {
-        account: "JG20201234",
-        pwd: "test10086"
+        account: "JG001",
+        pwd: "JG001"
       }
     };
   },

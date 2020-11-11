@@ -2,7 +2,7 @@
   <div class="simple-table">
     <el-table :data="tableData" max-height="700">
       <el-table-column prop="hwName" label="作业名"></el-table-column>
-      <el-table-column prop="hwContent" label="作业内容"></el-table-column>
+      <el-table-column prop="hwDesc" label="作业内容"></el-table-column>
       <el-table-column prop="endDate" label="截止时间"></el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
@@ -140,10 +140,11 @@ export default {
     getTableData() {
       this.$axios({
         method: "get",
-        url: "/api/homeworkClass",
+        url: "/api/homework",
         params: {
-          tchID: this.$store.getters.tchID,
-          classID: this.$route.params.id
+          teacherId: this.$store.getters.tchID,
+        //   classID: this.$route.params.id,
+          type: 1,
         }
       }).then(res => {
         console.log(res);

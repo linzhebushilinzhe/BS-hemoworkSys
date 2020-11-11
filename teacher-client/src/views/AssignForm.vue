@@ -20,7 +20,7 @@
           ></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="开始日期" prop="startDate">
+      <el-form-item label="开始日期" prop="startDate" v-if="show">
         <el-date-picker
             v-model="fileForm.startDate"
             type="date"
@@ -60,6 +60,7 @@
 export default {
   data() {
     return {
+      show: false,
       fileForm: {
         classID: "",
         form: "",
@@ -102,27 +103,24 @@ export default {
           console.log(this.fileForm.startDate);
           let param = new FormData();
           var file = document.querySelector("input[type=file]").files[0];
-          param.append("classID", this.fileForm.classID);
-          param.append("courseID", this.$store.getters.courseID);
-          //param.append("tchID", this.$store.getters.tchID);
+          param.append("classgradeId", this.fileForm.classID);
+          param.append("type", 1);
+          param.append("teacherId", this.$store.getters.tchID);
           param.append("hwName", this.fileForm.hwName);
-          param.append("startDate", this.fileForm.startDate);
           param.append("endDate", this.fileForm.endDate);
-          param.append("hwContent", this.fileForm.hwContent);
-          param.append("file", file);
-          console.log(param.get("name"));
+          param.append("hwDesc", this.fileForm.hwContent);
+          param.append("hwFile", file);
           this.$axios({
-            url: "/api/createHomework",
+            url: "/api/homework",
             method: "post",
             data: param
           }).then(res => {
             if (res.data.success) {
               this.$message({
-                message: res.data.msg,
+                message: res.data.msg || '创建成功',
                 type: "success"
               });
               this.fileForm.hwName = "";
-              this.fileForm.startDate = "";
               this.fileForm.endDate = "";
               this.fileForm.hwContent = "";
               this.fileForm.file = "";
@@ -137,14 +135,20 @@ export default {
     },
     getClassOptions() {
       this.$axios({
-        method: "post",
-        url: "/api/teacherClassOptions",
-        data: {
-          username: this.$store.getters.tchID
+        method: "get",
+        url: "/api/teachgrade",
+        params: {
+          tchId: this.$store.getters.tchID
         }
       }).then(res => {
         console.log("options--->", res.data);
-        this.options = res.data.data;
+        this.options = res.data.data.map(item=>{
+            return {
+                label:item.className,
+                value:item.id
+            }
+        });
+        console.log(this.options)
       });
     }
   }

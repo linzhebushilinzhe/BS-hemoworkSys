@@ -25,13 +25,20 @@ export default {
   methods: {
     getClassOptions() {
       this.$axios({
-        method: "post",
-        url: "/api/teacherClassOptions",
-        data: {
-          username: this.$store.getters.tchID
+        method: "get",
+        url: "/api/teachgrade",
+        params: {
+          tchId: this.$store.getters.tchID
         }
       }).then(res => {
-        this.classOptions = res.data.data;
+        console.log("options--->", res.data);
+        this.classOptions = res.data.data.map(item=>{
+            return {
+                label:item.className,
+                value:item.id
+            }
+        });
+        console.log(this.classOptions)
       });
     }
   }

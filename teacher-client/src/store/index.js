@@ -66,7 +66,7 @@ export default new Vuex.Store({
         return new Promise((resolve, reject)=>{
             axios({
                 method: 'post',
-                url: 'api/login',
+                url: 'api/user/login',
                 data: {
                     username: userInfo.account,
                     password: userInfo.pwd
@@ -75,7 +75,6 @@ export default new Vuex.Store({
                 const data = response.data
                 //console.log('ssss-->',data)
                 commit('SET_USERNAME',userInfo.account)
-                commit('SET_TCHID',userInfo.account)
                 commit('SET_TOKEN', data.token)
                 resolve(response)
             }).catch(err =>{
@@ -87,15 +86,16 @@ export default new Vuex.Store({
         return new Promise((resolve,reject)=>{
            axios({
                method: 'get',
-               url: 'api/teacherInfo',
+               url: 'api/teacher',
                params: {
-                   username: username
+                   tchNum: username
                }
            }).then((response) => {
                console.log(response)
-               var data = response.data.data
+               var data = response.data.data[0]
+               commit('SET_TCHID',data.id)
                commit('SET_COURSENAME',data.courseName)
-               commit('SET_COURSEID',data.courseID)
+               commit('SET_COURSEID',data.courseId)
                commit('SET_TCHNAME',data.tchName)
                console.log('homework-->',data)
                resolve()
