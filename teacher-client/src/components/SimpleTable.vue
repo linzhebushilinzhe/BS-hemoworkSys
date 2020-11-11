@@ -114,16 +114,16 @@ export default {
         .then(() => {
           this.$axios({
             method: "delete",
-            url: "/api/homeworkDelete",
+            url: "/api/homework",
             data: {
-              hwID: row.hwID
+              id: row.id
             }
           }).then(res => {
             console.log(res);
             if (res.data.success) {
               this.$message({
                 type: "success",
-                message: res.data.msg
+                message: res.data.msg || '删除成功'
               });
               this.getTableData();
             }
