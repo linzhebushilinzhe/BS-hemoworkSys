@@ -27,7 +27,7 @@ export default {
           if (res.data.success) {
             this.$store.dispatch("GetInfo", this.form.account).then(() => {
               this.$message({
-                message: res.data.msg,
+                message: res.data.msg || '登录成功',
                 type: "success"
               });
               this.$router.push({ path: "/home" });

@@ -102,7 +102,7 @@ export default {
       console.log(index, row.hwID);
       console.log("批改作业");
       this.$router.push({
-        path: "/homework/" + row.hwID
+        path: "/homework/" + row.id
       });
     },
     handleDelete(index, row) {

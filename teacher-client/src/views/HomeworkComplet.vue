@@ -2,18 +2,22 @@
   <div class="student-table">
     <el-table :data="hwInfo">
       <el-table-column prop="hwName" label="作业名"></el-table-column>
-      <el-table-column prop="hwContent" label="作业内容"></el-table-column>
+      <el-table-column prop="hwDesc" label="作业内容"></el-table-column>
       <el-table-column prop="endDate" label="截止日期"></el-table-column>
     </el-table>
     <el-table :data="stuHwComplatData" max-height="700">
       <el-table-column prop="stuName" label="学生姓名"></el-table-column>
-      <el-table-column prop="stuID" label="学号"></el-table-column>
+      <el-table-column prop="stuid" label="学号"></el-table-column>
       <el-table-column prop="state" label="是否提交"></el-table-column>
       <el-table-column prop="score" label="分数"></el-table-column>
       <el-table-column prop="comments" label="评语"></el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button size="mini" @click="handleCorrects(scope.$index, scope.row)">批改作业</el-button>
+          <el-button
+            size="mini"
+            @click="handleCorrects(scope.$index, scope.row)"
+            >批改作业</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -39,13 +43,16 @@
         <el-form-item label="评语">
           <el-input
             type="textarea"
-            :autosize="{ minRows: 4, maxRows: 6}"
+            :autosize="{ minRows: 4, maxRows: 6 }"
             placeholder="请输入内容"
             v-model="form.comments"
           ></el-input>
         </el-form-item>
         <el-form-item label="分数" prop="score">
           <el-input v-model="form.score"></el-input>
+        </el-form-item>
+        <el-form-item label="上传作业批改附件" prop="file">
+          <el-input class="correctFile" type="file" v-model="form.file"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -65,10 +72,10 @@ export default {
       hwInfo: [],
       stuHwInfo: "",
       form: {
-        endDate: "",
         score: "",
         comments: "",
         state: "",
+        file:"",
       },
       dialogFormVisible: false,
       // 默认显示第一条
@@ -76,20 +83,20 @@ export default {
       options: [
         {
           label: "已完成",
-          value: 1
+          value: 1,
         },
         {
           label: "未完成",
-          value: 0
-        }
+          value: 0,
+        },
       ],
       rules: {
-        state: [{ required: true, message: "请选择...", trigger: "change" }]
-      }
+        state: [{ required: true, message: "请选择...", trigger: "change" }],
+      },
     };
   },
   components: {
-    CanvasBox
+    CanvasBox,
   },
   created() {
     this.getStuHwComplatData();
@@ -105,26 +112,29 @@ export default {
     getStuHwComplatData() {
       this.$axios({
         method: "get",
-        url: "/api/hwComplet",
+        url: "/api/score",
         params: {
-          hwID: this.$route.params.id
-        }
-      }).then(res => {
+          hwid: this.$route.params.id,
+        },
+      }).then((res) => {
         console.log("getStuHwComplatData---->", res);
         if (res.data.success) {
           var data = res.data.data;
-          this.stuHwComplatData = data;
+          this.stuHwComplatData = data.map((item) => {
+            var state = item.state == 1 ? "是" : "否";
+            return { ...item, state: state };
+          });
         }
       });
     },
     getHwInfo() {
       this.$axios({
         method: "get",
-        url: "/api/homeworkInfo",
+        url: "/api/homework",
         params: {
-          hwID: this.$route.params.id,
-        }
-      }).then(res => {
+          id: this.$route.params.id,
+        },
+      }).then((res) => {
         if (res.data.success) {
           var data = res.data.data;
           this.hwInfo = data;
@@ -135,60 +145,63 @@ export default {
       console.log(index, row);
     },
     updateScore() {
+      var formData = new FormData();
+      var file = document.querySelector('.correctFile input[type=file]').files[0];
+      formData.append('hwid',parseInt(this.$route.params.id))
+      formData.append('stuid',this.stuHwInfo.stuid)
+      formData.append('state',this.form.state)
+      formData.append('score',this.form.score)
+      formData.append('comments',this.form.comments)
+      formData.append('resultFile',file)
+      console.log(file)
       this.$axios({
-        method: "post",
-        url: "/api/updateScore",
-        data: {
-          hwID: parseInt(this.$route.params.id),
-          stuID: this.stuHwInfo.stuID,
-          state: this.form.state,
-          score: this.form.score,
-          comments: this.form.comments,
-          resultFile: this.form.resultFile
-        }
+        method: "put",
+        url: "/api/score/correct",
+        data: formData,
       })
-        .then(res => {
+        .then((res) => {
           console.log(res);
           if (res.data.success) {
             this.$message({
-              message: res.data.msg
+              message: res.data.msg,
             });
             location.reload();
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$message({
-            message: err
+            message: err,
           });
         });
     },
-    uploadResultFile(){
-      var imgData = document.getElementById('hwImgCanvas').toDataURL('image/png')
+    uploadResultFile() {
+      var imgData = document
+        .getElementById("hwImgCanvas")
+        .toDataURL("image/png");
       this.$axios({
-        method: 'post',
-        url: '/api/uploadResultFile',
+        method: "post",
+        url: "/api/uploadResultFile",
         data: {
           imgData,
           hwID: this.stuHwInfo.hwID,
-          stuID: this.stuHwInfo.stuID
+          stuID: this.stuHwInfo.stuID,
         },
         processData: false, //必不可少参数
         traditional: true, //比不可少参数
         contentType: false,
-      })
+      });
     },
     submit() {
-      
-      this.$refs.form.validate(valid => {
+      this.$refs.form.validate((valid) => {
         if (valid) {
-          console.log('成功')
+          console.log("成功");
           this.updateScore();
-          this.uploadResultFile()
+        //   this.uploadResultFile();
           this.dialogFormVisible = false;
         }
       });
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
