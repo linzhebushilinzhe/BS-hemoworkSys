@@ -98,7 +98,7 @@ export default {
   created() {
     //console.log(this.$store.getters.stuID)
     //console.log(this.$route.params.id)
-    this.getHwInfo();
+    // this.getHwInfo();
   },
   mounted() {
     setTimeout(() => {

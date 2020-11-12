@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-end header align-center justify-between">
-    <h1 style="margin-left: 10px;">学生作业管理系统学生端</h1>
+    <h1 style="margin-left: 10px; visibility: hidden;">学生作业管理系统学生端</h1>
     <div>
       <span>欢迎:</span>
       <el-popover placement="top-start" title="用户信息" width="200" trigger="hover">

@@ -1,8 +1,17 @@
 <template>
   <div class="login-form flex flex-col">
-    <h1 class="text-center">学生作业管理系统</h1>
-    <el-input prefix-icon="el-icon-user-solid" v-model="form.account" placeholder="请输入账号"></el-input>
-    <el-input prefix-icon="el-icon-lock" type="password" placeholder="请输入密码" v-model="form.pwd"></el-input>
+    <h1 class="text-center" style="visibility: hidden">学生作业管理系统</h1>
+    <el-input
+      prefix-icon="el-icon-user-solid"
+      v-model="form.account"
+      placeholder="请输入账号"
+    ></el-input>
+    <el-input
+      prefix-icon="el-icon-lock"
+      type="password"
+      placeholder="请输入密码"
+      v-model="form.pwd"
+    ></el-input>
     <div class="btns-group flex justify-center">
       <el-button type="primary" @click="login">登录</el-button>
       <!-- <el-button type="primary" @click="test">注册</el-button> -->
@@ -16,46 +25,39 @@ export default {
   data() {
     return {
       form: {
-        account: "XS5120162266",
-        pwd: "XS5120162266"
-      }
+        account: "160101",
+        pwd: "160101",
+      },
     };
   },
   methods: {
     login() {
       this.$store
         .dispatch("Login", this.form)
-        .then(res => {
-          if (res.success) {
-            console.log(res);
+        .then((res) => {
+          if (res.data.success) {
             this.$message({
-              message: "登录成功!",
-              type: "success"
+              message: res.data.msg || "登录成功",
+              type: "success",
             });
             this.$store.dispatch("GetInfo", this.form.account).then(() => {
               this.$router.push({ path: "/home" });
             });
           } else {
             this.$message({
-              message: res.msg,
-              type: "error"
+              message: res.data.msg,
+              type: "error",
             });
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$message({
             message: err,
-            type: "error"
+            type: "error",
           });
         });
     },
-    test() {
-      axios({
-        method: "post",
-        url: "http://localhost:3000/login"
-      });
-    }
-  }
+  },
 };
 </script>
 <style lang="scss">

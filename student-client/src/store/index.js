@@ -76,43 +76,40 @@ export default new Vuex.Store({
         }
     },
     actions: {
-        Login({
-            commit
-        }, userInfo) {
-            return new Promise((resolve, reject) => {
+        Login({commit}, userInfo){
+            return new Promise((resolve, reject)=>{
                 axios({
                     method: 'post',
-                    url: 'api/login',
+                    url: 'api/user/login',
                     data: {
                         username: userInfo.account,
                         password: userInfo.pwd
                     }
                 }).then(response => {
                     const data = response.data
-                    if(data.success){
-                        commit('SET_STUID', userInfo.account)
-                        commit('SET_TOKEN', data.token)
-                        commit('SET_USERNAME', userInfo.account)
-                    }
-                    
-                    resolve(data)
-                }).catch(err => {
+                    //console.log('ssss-->',data)
+                    commit('SET_STUID', userInfo.account)
+                    commit('SET_USERNAME',userInfo.account)
+                    commit('SET_TOKEN', data.token)
+                    resolve(response)
+                }).catch(err =>{
                     reject(err)
                 })
             })
-        },
+          },
         GetInfo({
             commit
         }, username) {
             return new Promise((resolve, reject) => {
                 axios({
-                    method: 'post',
-                    url: 'api/stuHomework',
-                    data: {
-                        username: username
+                    method: 'get',
+                    url: 'api/score',
+                    params: {
+                        stuid: username
                     }
                 }).then((response) => {
                     var data = response.data.data
+                    console.log('data--->', data)
                     commit('SET_HOMEWORKLIST', data)
                     resolve()
                 }).catch((err) => {
