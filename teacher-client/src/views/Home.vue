@@ -28,8 +28,35 @@ import HeadInfo from "@/components/HeadInfo";
 export default {
   name: "Home",
   components: {
-    HeadInfo
-  }
+    HeadInfo,
+  },
+  data() {
+    return {
+      ws: new WebSocket("ws://127.0.0.1:5000"),
+    };
+  },
+  mounted() {
+    this.ws.onopen = function () {
+      console.log("连接服务器成功");
+    };
+    this.ws.onclose = function () {
+      console.log("服务器关闭");
+    };
+    this.ws.onerror = function () {
+      console.log("连接出错");
+    };
+    //3.监听 服务端的消息 后渲染页面
+    this.ws.onmessage = function (event) {
+      let data = JSON.parse(event.data);
+      if (data.username != this.$store.getters.tchName) {
+        this.msgList.push({
+          username: data.username,
+          mssage: data.mssage,
+          identity: data.identity,
+        });
+      }
+    };
+  },
 };
 </script>
 
