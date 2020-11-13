@@ -5,7 +5,7 @@
       <span>欢迎:</span>
       <el-popover placement="top-start" title="用户信息" width="200" trigger="hover">
         <el-row>姓名：{{this.$store.getters.tchName}}</el-row>
-        <el-row>学号：{{this.$store.getters.tchID}}</el-row>
+        <el-row>教工号：{{this.$store.getters.tchNum}}</el-row>
         <el-row>科目：{{this.$store.getters.courseName}}</el-row>
         <el-button slot="reference">{{this.$store.getters.tchName}} 老师</el-button>
       </el-popover>

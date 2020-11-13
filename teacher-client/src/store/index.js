@@ -11,6 +11,7 @@ export default new Vuex.Store({
           username: '',
           tchName: '',
           tchID: '',
+          tchNum: '',
           courseID: '',
           courseName: '',
           identity: '',
@@ -20,6 +21,9 @@ export default new Vuex.Store({
   getters: {
     tchID(state){
         return state.userinfo.tchID
+    },
+    tchNum(state){
+        return state.userinfo.tchNum
     },
     tchName(state){
       return state.userinfo.tchName
@@ -60,6 +64,9 @@ export default new Vuex.Store({
       SET_TCHNAME(state, data) {
         state.userinfo.tchName = data
       },
+      SET_TCHNUM(state, data) {
+        state.userinfo.tchNum = data
+      },
   },
   actions: {
       Login({commit}, userInfo){
@@ -91,12 +98,13 @@ export default new Vuex.Store({
                    tchNum: username
                }
            }).then((response) => {
-               console.log(response)
+               console.log('response--->',response)
                var data = response.data.data[0]
                commit('SET_TCHID',data.id)
                commit('SET_COURSENAME',data.courseName)
                commit('SET_COURSEID',data.courseId)
                commit('SET_TCHNAME',data.tchName)
+               commit('SET_TCHNUM',data.tchNum)
                console.log('homework-->',data)
                resolve()
            }).catch((err)=>{

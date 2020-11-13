@@ -143,7 +143,7 @@ export default {
         url: "/api/homework",
         params: {
           teacherId: this.$store.getters.tchID,
-        //   classID: this.$route.params.id,
+          classgradeId: this.$route.params.id,
           type: 1,
         }
       }).then(res => {

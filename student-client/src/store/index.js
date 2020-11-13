@@ -18,7 +18,7 @@ export default new Vuex.Store({
                     label: '语文'
                 },
                 {
-                    path: '/math',
+                    path: '/Math',
                     id: 2,
                     label: '数学'
                 },
@@ -127,14 +127,14 @@ export default new Vuex.Store({
                     var data = response.data.data
                     var result = {
                         Chinese:[],
-                        Math:[],
+                        math:[],
                         English:[],
                     }
                     data.forEach(item=>{
                         if(item.courseName == '语文'){
                             result.Chinese.push(item)
                         } else if(item.courseName == '数学'){
-                            result.Math.push(item)
+                            result.math.push(item)
                         } else if(item.courseName == '英语'){
                             result.English.push(item)
                         }

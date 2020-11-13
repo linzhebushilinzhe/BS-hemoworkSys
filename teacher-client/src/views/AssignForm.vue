@@ -73,13 +73,13 @@ export default {
       options: "",
       rules: {
         hwName: [{ required: true, message: "请输入...", trigger: "blur" }],
-        classID: [{ required: true, message: "请输入...", trigger: "change" }],
+        classID: [{ required: true, message: "请输入...", trigger: "blur" }],
         startDate: [
           {
             type: "string",
             required: true,
             message: "请选择时间",
-            trigger: "change"
+            trigger: "blur"
           }
         ],
         endDate: [
@@ -87,7 +87,7 @@ export default {
             type: "string",
             required: true,
             message: "请选择...",
-            trigger: "change"
+            trigger: "blur"
           }
         ],
       }

@@ -30,7 +30,7 @@ export default {
                 message: res.data.msg || '登录成功',
                 type: "success"
               });
-              this.$router.push({ path: "/home" });
+              this.$router.push({ path: "/assignsHomework" });
             });
           } else {
             this.$message({
