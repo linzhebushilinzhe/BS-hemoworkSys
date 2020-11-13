@@ -42,7 +42,7 @@ export default {
       console.log("服务器关闭");
     };
     this.ws.onerror = function() {
-      console.log("连接出错");
+      console.error("连接出错");
     };
     //3.监听 服务端的消息 后渲染页面
     this.ws.onmessage = function(event) {

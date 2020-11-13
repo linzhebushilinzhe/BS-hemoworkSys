@@ -40,8 +40,8 @@ export default {
               message: res.data.msg || "登录成功",
               type: "success",
             });
-            this.$store.dispatch("GetInfo", this.form.account).then(() => {
-              this.$router.push({ path: "/home" });
+            this.$store.dispatch("GetInfo", this.$store.getters.classId).then(() => {
+              this.$router.push({ path: "/Chinese" });
             });
           } else {
             this.$message({

@@ -33,18 +33,10 @@
 
       <el-collapse-item title="提交作业" name="2" class="collapse hw-info-check">
         <el-row :gutter="20">
-          <el-col :span="3" class="text-right">
-            <h4>作业文本:</h4>
+          <el-col :span="4" class="text-right">
+            <h4>提交作业附件:</h4>
           </el-col>
-          <el-col :span="21">
-            <span>{{hwDesc}}</span>
-          </el-col>
-        </el-row>
-        <el-row :gutter="20">
-          <el-col :span="3" class="text-right">
-            <h4>作业附件:</h4>
-          </el-col>
-          <el-col :span="21">
+          <el-col :span="20">
             <el-upload
               class="upload"
               ref="upload"
@@ -98,7 +90,7 @@ export default {
   created() {
     //console.log(this.$store.getters.stuID)
     //console.log(this.$route.params.id)
-    // this.getHwInfo();
+    this.getHwInfo();
   },
   mounted() {
     setTimeout(() => {
@@ -111,26 +103,22 @@ export default {
       fd.append("uploadFile", val.file);
       fd.append("username", "XS5120162266");
       fd.append("hwID", this.$route.params.id);
-      console.log("fd--->", fd);
       axios({
         method: "post",
         url: "/api/upload",
         data: fd
       }).then(res => {
-        console.log("res -->", res);
       });
     },
     getHwInfo() {
       axios({
         method: "get",
-        url: "/api/stuHomework",
+        url: "/api/score",
         params: {
-          hwID: this.$route.params.id,
-          stuID: this.$store.getters.stuID
+          hwid: this.$route.params.id,
+          stuid: this.$store.getters.stuID
         }
-      })
-        .then(res => {
-          console.log("res->详细作业信息", res);
+      }).then(res => {
           this.hwName = res.data.data[0].hwName;
           this.hwDesc = res.data.data[0].hwDesc;
           this.hwContent = res.data.data[0].hwContent;
@@ -150,9 +138,7 @@ export default {
     },
     download() {
       var that = this;
-      console.log("download--> start");
       $(".el-upload-list__item-name").click(function() {
-        console.log("click");
         axios({
           method: "post",
           url: "/api/download",
@@ -162,7 +148,6 @@ export default {
           responseType: "arraybuffer"
         })
           .then(res => {
-            console.log("res-download", res);
             const fileName = res.headers["content-disposition"].split("=")[1];
             const _res = res.data;
             let blob = new Blob([_res]);
@@ -174,7 +159,6 @@ export default {
             downloadElement.click(); //点击下载
             document.body.removeChild(downloadElement); //下载完成移除元素
             window.URL.revokeObjectURL(href);
-            console.log("download--> end");
           })
           .catch(err => {
             that.$message({
@@ -198,7 +182,6 @@ export default {
           responseType: "arraybuffer"
         })
           .then(res => {
-            console.log("res-download", res);
             const fileName = res.headers["content-disposition"].split("=")[1];
             const _res = res.data;
             let blob = new Blob([_res]);
@@ -210,7 +193,6 @@ export default {
             downloadElement.click(); 
             document.body.removeChild(downloadElement); 
             window.URL.revokeObjectURL(href);
-            console.log("download--> end");
           })
           .catch(err => {
             that.$message({
@@ -223,7 +205,6 @@ export default {
       }
     },
     downloadHwFile(){
-      console.log(this.hwFile)
       if(this.hwFile) {
         axios({
           method: "post",
@@ -234,7 +215,6 @@ export default {
           responseType: "arraybuffer"
         })
           .then(res => {
-            console.log("res-download", res);
             const fileName = res.headers["content-disposition"].split("=")[1];
             const _res = res.data;
             let blob = new Blob([_res]);
@@ -246,7 +226,6 @@ export default {
             downloadElement.click(); 
             document.body.removeChild(downloadElement); 
             window.URL.revokeObjectURL(href);
-            console.log("download--> end");
           })
           .catch(err => {
             that.$message({

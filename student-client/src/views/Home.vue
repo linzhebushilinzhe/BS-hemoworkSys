@@ -35,7 +35,6 @@ export default {
     HeaderInfo
   },
   mounted() {
-    console.log('courseList',this.$store.getters)
   }
 };
 </script>

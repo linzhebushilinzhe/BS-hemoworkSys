@@ -1,11 +1,11 @@
 <template>
   <div class="hw-list">
-      <div @click="tabTo(item.hwID)"
+      <div @click="tabTo(item.id)"
         v-for="(item,index) in getHwList" 
         :key="index">
            <el-card>
                 <h3 class="title">{{item.hwName}}</h3>
-                <span>截止时间：</span>
+                <span>截止时间：{{item.endDate}}</span>
             </el-card>
       </div>
   </div>
@@ -19,7 +19,7 @@ export default {
     };
   },
   created(){
-      //console.log('name',this.$route.name)
+      console.log('name',this.$route.name)
       //console.log(1111)
       
   },

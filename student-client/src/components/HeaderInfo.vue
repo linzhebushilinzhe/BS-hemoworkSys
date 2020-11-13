@@ -3,10 +3,11 @@
     <h1 style="margin-left: 10px; visibility: hidden;">学生作业管理系统学生端</h1>
     <div>
       <span>欢迎:</span>
-      <el-popover placement="top-start" title="用户信息" width="200" trigger="hover">
+      <el-popover placement="top-start" title="用户信息" width="200" trigger="hover" >
         <el-row>姓名：{{this.stuName}}</el-row>
         <el-row>学号：{{this.stuID}}</el-row>
-        <el-button slot="reference">
+        <el-row>班级：{{this.className}}</el-row>
+        <el-button slot="reference" style="background: #eee;">
           {{this.stuName}}
           {{this.$store.getters.identity | identity(this.$store.getters.identity )}}
         </el-button>
@@ -69,7 +70,6 @@ export default {
     };
   },
   created() {
-    console.log("created");
     this.userInfo();
   },
   filters: {
@@ -88,7 +88,6 @@ export default {
       
       this.$refs.form.validate(valid => {
         if (valid) {
-          console.log(this.form);
           this.$axios({
             method: "post",
             url: "/api/user/changePwd/" + this.stuID,
@@ -96,7 +95,6 @@ export default {
               password: this.form.newPwd
             }
           }).then(res => {
-            console.log(res);
             if(res.data.success){
               this.$message({
                 message: res.data.data,
@@ -122,18 +120,9 @@ export default {
       });
     },
     userInfo() {
-      console.log(axios);
-      axios({
-        method: "get",
-        url: "/api/students/" + this.$store.getters.stuID
-      }).then(res => {
-        if (res.data.success) {
-          console.log(res.data.data[0]);
-          this.stuID = res.data.data[0].stuID;
-          this.stuName = res.data.data[0].stuName;
-          this.$store.commit('SET_STUNAME',this.stuName)
-        }
-      });
+      this.stuID = this.$store.getters.stuID
+      this.stuName = this.$store.getters.stuName
+      this.className = this.$store.getters.className
     }
   }
 };

@@ -25,7 +25,6 @@ axios.interceptors.request.use(function (config) {
 });
 
 axios.interceptors.response.use(function (response) {
-  console.log('axios 拦截器--> response',response)
   if (response.data.status == 403) {
     ElementUI.Message({
       message: '登录已过期，请重新登录'
