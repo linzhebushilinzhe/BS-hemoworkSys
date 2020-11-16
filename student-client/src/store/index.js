@@ -31,7 +31,9 @@ export default new Vuex.Store({
             homeworkList: [],
             stuName: ''
         },
-        token: ''
+        token: '',
+        ws: '',
+        msgList1: [],
     },
     getters: {
         stuName(state){
@@ -57,6 +59,12 @@ export default new Vuex.Store({
         },
         homeworkList(state) {
             return state.userinfo.homeworkList
+        },
+        msgList(state) {
+            return state.msgList1
+        },
+        ws(state){
+            return state.ws
         }
     },
     mutations: {
@@ -88,6 +96,13 @@ export default new Vuex.Store({
         SET_CLASSID(state, data) {
             state.userinfo.classId = data
         },
+        ADD_MSGLIST(state, data) {
+            console.log('state.msgList--->', typeof state.msgList1)
+            state.msgList1.push(data)
+        },
+        SET_WS(state,data){
+            state.ws = data
+        }
     },
     actions: {
         Login({commit}, userInfo){
@@ -146,7 +161,37 @@ export default new Vuex.Store({
                     reject(err)
                 })
             })
-        }
+        },
+        AddMsglist({
+            commit
+        }, {
+            data,
+            name
+        }) {
+            // data = JSON.parse(data.data);
+            if (data.username != name) {
+                const value = {
+                    username: data.username,
+                    mssage: data.mssage,
+                    identity: data.identity,
+                }
+                commit('ADD_MSGLIST', value)
+            }
+        },
+        SendMsg({
+            commit
+        }, {
+            data,
+            ws
+        }) {
+            let msgInfo = data
+            console.log('wssssssssss----->',ws)
+            console.log('msgInfo--->',msgInfo)
+            if (ws.readyState != 3) {
+                ws.send(JSON.stringify(msgInfo));
+                commit('ADD_MSGLIST', msgInfo)
+            }
+        },
     },
     modules: {},
     plugins: [createPersistedState()]

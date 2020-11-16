@@ -28,13 +28,37 @@ export default {
   name: "home",
   data() {
     return {
-      courseList: this.$store.getters.course
+      courseList: this.$store.getters.course,
+      ws: new WebSocket("ws://127.0.0.1:5000"),
     };
   },
   components: {
     HeaderInfo
   },
   mounted() {
+      this.$store.commit('SET_WS', this.ws)
+    console.log('ws--->',this.ws)
+    var that = this
+    this.ws.onopen = function () {
+      console.log("连接服务器成功");
+    };
+    this.ws.onclose = function () {
+      console.log("服务器关闭");
+    };
+    this.ws.onerror = function () {
+      console.log("连接出错");
+    };
+    //3.监听 服务端的消息 后渲染页面
+    this.ws.onmessage = function (event) {
+        console.log('store--->',that.$store.getters.stuName)
+        console.log('server--data--->',event.data)
+        console.log('type--->',typeof event.data)
+        console.log(JSON.parse(event.data))
+      that.$store.dispatch("AddMsglist", {
+        data: JSON.parse(event.data),
+        name: that.$store.getters.stuName,
+      });
+    };
   }
 };
 </script>

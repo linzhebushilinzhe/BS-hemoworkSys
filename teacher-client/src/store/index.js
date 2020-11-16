@@ -18,6 +18,7 @@ export default new Vuex.Store({
         },
         token: '',
         msgList: [],
+        ws: ''
     },
     getters: {
         tchID(state) {
@@ -42,8 +43,11 @@ export default new Vuex.Store({
             return state.userinfo.courseName
         },
         msgList(state) {
-            return state.courseName
+            return state.msgList
         },
+        ws(state){
+            return state.ws
+        }
     },
     mutations: {
         SET_USERNAME(state, data) {
@@ -73,6 +77,9 @@ export default new Vuex.Store({
         },
         ADD_MSGLIST(state, data) {
             state.msgList.push(data)
+        },
+        SET_WS(state,data){
+            state.ws = data
         }
     },
     actions: {
@@ -123,17 +130,36 @@ export default new Vuex.Store({
                 })
             })
         },
-        AddMsglist({commit},{data,name}){
-            data = JSON.parse(data.data);
+        AddMsglist({
+            commit
+        }, {
+            data,
+            name
+        }) {
+            // data = JSON.parse(data.data);
             if (data.username != name) {
                 const value = {
                     username: data.username,
                     mssage: data.mssage,
                     identity: data.identity,
                 }
-                commit('ADD_MSGLIST',value)
+                commit('ADD_MSGLIST', value)
             }
-        }
+        },
+        SendMsg({
+            commit
+        }, {
+            data,
+            ws
+        }) {
+            let msgInfo = data
+            console.log('wssssssssss----->',ws)
+            console.log('msgInfo--->',msgInfo)
+            if (ws.readyState != 3) {
+                ws.send(JSON.stringify(msgInfo));
+                commit('ADD_MSGLIST', msgInfo)
+            }
+        },
     },
     modules: {},
     plugins: [createPersistedState()]

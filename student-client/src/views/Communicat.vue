@@ -18,7 +18,7 @@
           <el-input v-model="msg" placeholder="信息"></el-input>
         </div>
         <div>
-            <el-button type="primary" @click="sendMsg">发送</el-button>
+          <el-button type="primary" @click="sendMsg">发送</el-button>
         </div>
       </div>
     </div>
@@ -35,34 +35,15 @@ export default {
       width: "",
       msgList: [],
       msg: "",
-      ws: new WebSocket("ws://127.0.0.1:5000"),
+      //   ws: new WebSocket("ws://127.0.0.1:5000"),
     };
   },
   mounted() {
     var that = this;
+    this.msgList = this.$store.getters.msgList;
     this.width = document.querySelector(".test").offsetWidth;
     window.onresize = function () {
       that.width = document.querySelector(".test").offsetWidth;
-    };
-    this.ws.onopen = function (e) {
-      console.log("连接服务器成功");
-    };
-    this.ws.onclose = function (e) {
-      console.log("服务器关闭");
-    };
-    this.ws.onerror = function () {
-      console.error("连接出错");
-    };
-    //3.监听 服务端的消息 后渲染页面
-    this.ws.onmessage = function (event) {
-      let data = JSON.parse(event.data);
-      if (data.username != that.$store.getters.stuName) {
-        that.msgList.push({
-          username: data.username,
-          mssage: data.mssage,
-          identity: data.identity,
-        });
-      }
     };
   },
   methods: {
@@ -72,10 +53,11 @@ export default {
         mssage: this.msg,
         identity: "学生",
       };
-      if (this.ws.readyState != 3) {
-        this.ws.send(JSON.stringify(msgInfo));
-        this.msgList.push(msgInfo);
-      }
+      this.$store.dispatch("SendMsg", {
+        data: msgInfo,
+        ws: this.$store.getters.ws,
+      });
+      this.msg = "";
     },
   },
 };

@@ -36,6 +36,9 @@ export default {
     };
   },
   mounted() {
+    this.$store.commit('SET_WS', this.ws)
+    console.log('ws--->',this.ws)
+    var that = this
     this.ws.onopen = function () {
       console.log("连接服务器成功");
     };
@@ -47,14 +50,14 @@ export default {
     };
     //3.监听 服务端的消息 后渲染页面
     this.ws.onmessage = function (event) {
-      let data = JSON.parse(event.data);
-      if (data.username != this.$store.getters.tchName) {
-        this.msgList.push({
-          username: data.username,
-          mssage: data.mssage,
-          identity: data.identity,
-        });
-      }
+        console.log('store--->',that.$store.getters.tchName)
+        console.log('server--data--->',event.data)
+        console.log('type--->',typeof event.data)
+        console.log(JSON.parse(event.data))
+      that.$store.dispatch("AddMsglist", {
+        data: JSON.parse(event.data),
+        name: that.$store.getters.tchName,
+      });
     };
   },
 };
