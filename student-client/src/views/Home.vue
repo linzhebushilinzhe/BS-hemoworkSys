@@ -50,10 +50,10 @@ export default {
     };
     //3.监听 服务端的消息 后渲染页面
     this.ws.onmessage = function (event) {
-        console.log('store--->',that.$store.getters.stuName)
-        console.log('server--data--->',event.data)
-        console.log('type--->',typeof event.data)
-        console.log(JSON.parse(event.data))
+        // console.log('store--->',that.$store.getters.stuName)
+        // console.log('server--data--->',event.data)
+        // console.log('type--->',typeof event.data)
+        // console.log(JSON.parse(event.data))
       that.$store.dispatch("AddMsglist", {
         data: JSON.parse(event.data),
         name: that.$store.getters.stuName,

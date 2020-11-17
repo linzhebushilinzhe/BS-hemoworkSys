@@ -185,8 +185,8 @@ export default new Vuex.Store({
             ws
         }) {
             let msgInfo = data
-            console.log('wssssssssss----->',ws)
-            console.log('msgInfo--->',msgInfo)
+            // console.log('wssssssssss----->',ws)
+            // console.log('msgInfo--->',msgInfo)
             if (ws.readyState != 3) {
                 ws.send(JSON.stringify(msgInfo));
                 commit('ADD_MSGLIST', msgInfo)

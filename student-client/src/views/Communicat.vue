@@ -1,7 +1,7 @@
 <template>
   <div class="communicat re">
-    <ul class="ab test" style="top: 0px; bottom: 60px; width: 100%">
-      <div style="height: 100%; overflow-y: auto">
+    <ul class="ab test" style="top: 0px; bottom: 60px; width: 100%; overflow-y: auto">
+      <div class="msg-box" style="height: 100%;">
         <!-- <div>{{this.$store.getters.username}}</div> -->
         <div v-for="(item, i) in msgList" :key="i">
           <el-input
@@ -27,7 +27,7 @@
 
 <script>
 // @ is an alias to /src
-
+import $ from "jquery";
 export default {
   name: "communicat",
   data() {
@@ -58,6 +58,8 @@ export default {
         ws: this.$store.getters.ws,
       });
       this.msg = "";
+      console.log($('.msg-box'))
+      $('.test').scrollTop( $('.msg-box')[0].scrollHeight );
     },
   },
 };

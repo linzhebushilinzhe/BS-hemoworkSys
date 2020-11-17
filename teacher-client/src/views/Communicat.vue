@@ -1,7 +1,7 @@
 <template>
   <div class="communicat re">
     <ul class="ab test" style="top: 0px; bottom: 60px; width: 100%">
-      <div style="height: 100%; overflow-y: auto">
+      <div class="msg-box" style="height: 100%; overflow-y: auto">
         <!-- <div>{{this.$store.getters.username}}</div> -->
         <div v-for="(item, i) in msgList" :key="i">
           <el-input
@@ -24,7 +24,7 @@
     </div>
   </div>
 </template>
-
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js"></script>
 <script>
 // @ is an alias to /src
 
