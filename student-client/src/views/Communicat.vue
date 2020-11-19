@@ -45,6 +45,9 @@ export default {
     window.onresize = function () {
       that.width = document.querySelector(".test").offsetWidth;
     };
+    this.$nextTick(()=>{
+      $('.test').scrollTop( $('.msg-box')[0].scrollHeight );
+    })
   },
   methods: {
     sendMsg() {
@@ -59,7 +62,9 @@ export default {
       });
       this.msg = "";
       console.log($('.msg-box'))
-      $('.test').scrollTop( $('.msg-box')[0].scrollHeight );
+      this.$nextTick(()=>{
+           $('.test').scrollTop( $('.msg-box')[0].scrollHeight );
+      })
     },
   },
 };

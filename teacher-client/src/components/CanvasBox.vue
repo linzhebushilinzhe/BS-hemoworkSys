@@ -20,10 +20,10 @@ export default {
     console.log("fdasfd");
     var canvas = document.getElementById("hwImgCanvas");
     var img = new Image()
-    if(this.data.state == 1){
-      img.src = 'http://localhost:3000/public/images/teacher/'+this.data.resultFile
-    } else if(this.data.state == 0){
-      img.src = 'http://localhost:3000/public/images/'+this.data.stuHwFile
+    if(this.data.state == '是'){
+      img.src = 'http://localhost:9000/public/images/teacher/'+this.data.resultFile.split('\\').pop().split('/').pop()
+    } else if(this.data.state == '否'){
+      img.src = 'http://localhost:9000/public/images/student/'+this.data.stuFile.split('\\').pop().split('/').pop()
     }
     img.setAttribute('crossOrigin', 'anonymous');
     img.onload = function(){

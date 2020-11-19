@@ -1,7 +1,7 @@
 <template>
   <div class="communicat re">
-    <ul class="ab test" style="top: 0px; bottom: 60px; width: 100%">
-      <div class="msg-box" style="height: 100%; overflow-y: auto">
+    <ul class="ab test" style="top: 0px; bottom: 60px; width: 100%; overflow-y: auto">
+      <div class="msg-box" style="height: 100%; ">
         <!-- <div>{{this.$store.getters.username}}</div> -->
         <div v-for="(item, i) in msgList" :key="i">
           <el-input
@@ -27,6 +27,7 @@
 <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js"></script>
 <script>
 // @ is an alias to /src
+import $ from "jquery";
 
 export default {
   name: "communicat",
@@ -45,6 +46,9 @@ export default {
     window.onresize = function () {
       that.width = document.querySelector(".test").offsetWidth;
     };
+    this.$nextTick(()=>{
+           $('.test').scrollTop( $('.msg-box')[0].scrollHeight );
+      })
   },
   methods: {
     sendMsg() {
@@ -58,6 +62,9 @@ export default {
         ws: this.$store.getters.ws,
       });
       this.msg = "";
+       this.$nextTick(()=>{
+           $('.test').scrollTop( $('.msg-box')[0].scrollHeight );
+      })
     },
   },
 };

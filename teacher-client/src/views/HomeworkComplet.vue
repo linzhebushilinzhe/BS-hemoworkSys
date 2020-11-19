@@ -28,7 +28,7 @@
       :data="stuHwInfo"
     >
       <el-form :model="form" :rules="rules" ref="form" :formValue="form">
-        <CanvasBox v-if="stuHwInfo.stuHwFile" :data="stuHwInfo"></CanvasBox>
+        <CanvasBox v-if="stuHwInfo.stuFile" :data="stuHwInfo"></CanvasBox>
         <h3 v-else>暂未提交</h3>
         <el-form-item label="是否完成" prop="state">
           <el-select v-model="form.state" placeholder="请选择">
@@ -51,9 +51,9 @@
         <el-form-item label="分数" prop="score">
           <el-input v-model="form.score"></el-input>
         </el-form-item>
-        <el-form-item label="上传作业批改附件" prop="file">
+        <!-- <el-form-item label="上传作业批改附件" prop="file">
           <el-input class="correctFile" type="file" v-model="form.file"></el-input>
-        </el-form-item>
+        </el-form-item> -->
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
@@ -144,16 +144,33 @@ export default {
     back(index, row) {
       console.log(index, row);
     },
+    dataURLtoFile (dataurl, filename) {
+      let arr = dataurl.split(',');
+      let mime = arr[0].match(/:(.*?);/)[1];
+      let bstr = atob(arr[1]);
+      let n = bstr.length;
+      let u8arr = new Uint8Array(n);
+      while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+      }
+      return new File([u8arr], filename, {type: mime});
+    },
     updateScore() {
       var formData = new FormData();
-      var file = document.querySelector('.correctFile input[type=file]').files[0];
+    //   var file = document.querySelector('.correctFile input[type=file]').files[0];
+      var imgData = document
+        .getElementById("hwImgCanvas")
+        .toDataURL("image/png");
+    
+      var imgfile = this.dataURLtoFile(imgData,'test')
+      console.log('imgfile--->',imgfile)
       formData.append('hwid',parseInt(this.$route.params.id))
       formData.append('stuid',this.stuHwInfo.stuid)
       formData.append('state',this.form.state)
       formData.append('score',this.form.score)
       formData.append('comments',this.form.comments)
-      formData.append('resultFile',file)
-      console.log(file)
+      formData.append('resultFile',imgfile)
+      console.log(formData) 
       this.$axios({
         method: "put",
         url: "/api/score/correct",

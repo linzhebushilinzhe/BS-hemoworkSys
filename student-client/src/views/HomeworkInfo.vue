@@ -17,7 +17,6 @@
           </el-col>
           <el-col :span="21">
             <div>内容：{{hwContent}}。</div>
-            <div>提交要求：{{hwDesc}}</div>
             <div>截止时间：{{endTime}}</div>
           </el-col>
         </el-row>
@@ -99,15 +98,25 @@ export default {
   },
   methods: {
     uploadHw(val) {
+        // this.fileList = []
       var fd = new FormData();
-      fd.append("uploadFile", val.file);
-      fd.append("username", "XS5120162266");
-      fd.append("hwID", this.$route.params.id);
+      fd.append("stuFile", val.file);
+      fd.append("stuid", this.$store.getters.stuID);
+      fd.append("hwid", this.$route.params.id);
       axios({
-        method: "post",
-        url: "/api/upload",
+        method: "put",
+        url: "/api/score/upload",
         data: fd
       }).then(res => {
+          console.log(res)
+          if(res.data.success){
+               this.$message({
+                message: res.data.msg || '上传成功',
+                type: "success"
+              });
+            this.getHwInfo()
+          }
+        //   $('.upload i').hidden()
       });
     },
     getHwInfo() {
@@ -120,17 +129,22 @@ export default {
         }
       }).then(res => {
           this.hwName = res.data.data[0].hwName;
-          this.hwDesc = res.data.data[0].hwDesc;
-          this.hwContent = res.data.data[0].hwContent;
+          this.hwContent = res.data.data[0].hwDesc;
           this.endTime = res.data.data[0].endDate;
           this.hwComments = res.data.data[0].comments;
           this.resultFile = res.data.data[0].resultFile;
           this.hwFile = res.data.data[0].hwFile
-          if (res.data.data[0].stuHwFile != null) {
+          if (res.data.data[0].stuFile != null) {
+              this.fileList = []
             this.fileList.push({
-              name: res.data.data[0].stuHwFile
+              name: res.data.data[0].stuFile.split('\\').pop().split('/').pop()
             });
           }
+        //    $('.upload i').hidden()
+           this.$nextTick(()=>{
+               $('.upload i').hide()
+               console.log($('.upload i'))
+           })
         })
         .catch(err => {
           console.log(err);
@@ -141,7 +155,7 @@ export default {
       $(".el-upload-list__item-name").click(function() {
         axios({
           method: "post",
-          url: "/api/download",
+          url: "/api/score/download",
           data: {
             filename: that.fileList[0].name
           },
@@ -162,22 +176,23 @@ export default {
           })
           .catch(err => {
             that.$message({
-              message: "登录已过期，请重新登录"
+              message: err || "登录已过期，请重新登录"
             });
-            that.$router.push({
-              path: "/login"
-            });
+            // that.$router.push({
+            //   path: "/login"
+            // });
           });
       });
     },
     downloadResulltFile() {
+        console.log(this)
       var that = this;
       if (that.resultFile != "") {
         axios({
           method: "post",
-          url: "/api/downloadResultFile",
+          url: "/api/score/downloadResultfile",
           data: {
-            filename: that.resultFile
+            filename: that.resultFile.split('\\').pop().split('/').pop()
           },
           responseType: "arraybuffer"
         })
@@ -196,25 +211,30 @@ export default {
           })
           .catch(err => {
             that.$message({
-              message: "登录已过期，请重新登录"
+              message: err
             });
             that.$router.push({
               path: "/login"
             });
           });
+      } else {
+          this.$message({
+              message: '暂无文件'
+          })
       }
     },
     downloadHwFile(){
       if(this.hwFile) {
         axios({
           method: "post",
-          url: "/api/downloadHwFile",
+          url: "/api/homework/download",
           data: {
-            filename: this.hwFile
+            filename: this.hwFile.split('\\').pop().split('/').pop()
           },
           responseType: "arraybuffer"
         })
           .then(res => {
+              console.log('res--->',res)
             const fileName = res.headers["content-disposition"].split("=")[1];
             const _res = res.data;
             let blob = new Blob([_res]);
@@ -235,6 +255,10 @@ export default {
               path: "/login"
             });
           });
+      } else{
+          this.$message({
+              message:'暂无文件'
+          })
       }
     }
   }
@@ -264,6 +288,9 @@ export default {
     p {
       margin-left: 20px;
     }
+  }
+  .upload i {
+      display: none;
   }
 }
 </style>

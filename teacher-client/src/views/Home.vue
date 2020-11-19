@@ -24,6 +24,8 @@
 <script>
 // @ is an alias to /src
 // import HelloWorld from "@/components/HelloWorld.vue";
+import $ from "jquery";
+
 import HeadInfo from "@/components/HeadInfo";
 export default {
   name: "Home",
@@ -58,6 +60,9 @@ export default {
         data: JSON.parse(event.data),
         name: that.$store.getters.tchName,
       });
+       that.$nextTick(()=>{
+           $('.test').scrollTop( $('.msg-box')[0].scrollHeight );
+      })
     };
   },
 };

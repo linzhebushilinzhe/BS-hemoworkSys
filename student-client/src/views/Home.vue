@@ -24,6 +24,8 @@
 </template>
 <script>
 import HeaderInfo from "@/components/HeaderInfo";
+import $ from "jquery";
+
 export default {
   name: "home",
   data() {
@@ -58,6 +60,9 @@ export default {
         data: JSON.parse(event.data),
         name: that.$store.getters.stuName,
       });
+       that.$nextTick(()=>{
+           $('.test').scrollTop( $('.msg-box')[0].scrollHeight );
+      })
     };
   }
 };
